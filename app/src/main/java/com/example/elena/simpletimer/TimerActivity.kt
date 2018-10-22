@@ -24,15 +24,21 @@ class TimerActivity : AppCompatActivity() {
             isButtonPressed = getBoolean("IS_BUTTON_PRESSED")
         }
 
+        fun secondsTick() {
+            secondsPassed += 1
+            textView.text = numberToString(secondsPassed)
+        }
+
         val timer = object: CountDownTimer(1000000 - secondsPassed.toLong() * 1000, 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                secondsPassed += 1
-                textView.text = numberToString(secondsPassed)
+                secondsTick()
             }
 
             override fun onFinish() {
+                secondsTick()
                 button.text = "START"
                 isButtonPressed = false
+                secondsPassed = 0
             }
         }
 
@@ -63,7 +69,6 @@ class TimerActivity : AppCompatActivity() {
         outState.putBoolean("IS_BUTTON_PRESSED", isButtonPressed)
         super.onSaveInstanceState(outState)
     }
-
 
     private fun numberToString(number : Int) : String {
         val stringNumberBuilder = StringBuilder()
