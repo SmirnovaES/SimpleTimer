@@ -21,7 +21,7 @@ class StartActivity : AppCompatActivity() {
         if (!isStarted) {
             isStarted = true
             val intent = Intent(this, TimerActivity::class.java)
-            timer = object: CountDownTimer(5000, 2000) {
+            timer = object: CountDownTimer(2000, 2000) {
                 override fun onTick(millisUntilFinished: Long) {}
 
                 override fun onFinish() {
