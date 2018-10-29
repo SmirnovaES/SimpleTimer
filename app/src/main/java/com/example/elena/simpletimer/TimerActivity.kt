@@ -42,20 +42,22 @@ class TimerActivity : AppCompatActivity() {
             }
         }
 
+
+        if (secondsPassed != 0) {
+            textView.text = numberToString(secondsPassed)
+        }
         if(isButtonPressed) {
             button.text = "STOP"
             timer.start()
         } else {
             button.text = "START"
-            if (secondsPassed != 0) {
-                textView.text = numberToString(secondsPassed)
-            }
         }
 
         button.setOnClickListener {
             if (isButtonPressed) {
                 timer.cancel()
-                timer.onFinish()
+                button.text = "START"
+                isButtonPressed = false
             } else {
                 button.text = "STOP"
                 isButtonPressed = true
@@ -87,6 +89,8 @@ class TimerActivity : AppCompatActivity() {
         }
         return stringNumberBuilder.toString()
     }
+
+
 
     private val numbersConvert : Map<Int, String> = mapOf(0 to "",
             1 to "один",

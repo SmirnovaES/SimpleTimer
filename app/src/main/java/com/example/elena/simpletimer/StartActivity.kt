@@ -7,19 +7,40 @@ import android.os.CountDownTimer
 
 class StartActivity : AppCompatActivity() {
 
+    private lateinit var timer : CountDownTimer
+    private var isStarted = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_start)
 
-        val intent = Intent(this, TimerActivity::class.java)
-        val timer = object: CountDownTimer(2000, 2000) {
-            override fun onTick(millisUntilFinished: Long) {}
-
-            override fun onFinish() {
-                startActivity(intent)
-            }
+        savedInstanceState?.run {
+            isStarted = getBoolean("IS_STARTED")
         }
 
-        timer.start()
+        if (!isStarted) {
+            isStarted = true
+            val intent = Intent(this, TimerActivity::class.java)
+            timer = object: CountDownTimer(5000, 2000) {
+                override fun onTick(millisUntilFinished: Long) {}
+
+                override fun onFinish() {
+                    startActivity(intent)
+                }
+            }
+            timer.start()
+        }
+    }
+
+    override fun onBackPressed() {
+        if (isStarted && ::timer.isInitialized) {
+            timer.cancel()
+        }
+        super.onBackPressed()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        outState.putBoolean("IS_STARTED", isStarted)
+        super.onSaveInstanceState(outState)
     }
 }
